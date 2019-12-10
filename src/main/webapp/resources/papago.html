@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+<body>
+	<style>
+#nav-wrap .navs {
+	width: 100%;
+	position: relative;
+	bottom: 0;
+	color: rgb(48, 36, 36);
+	display: flex;
+	justify-content: space-around;
+	margin: 18px;
+	font-size: 20px;
+}
+
+#nav-wrap .navs>* {
+	text-transform: uppercase;
+	height: 50px;
+}
+
+#nav-wrap .navs>*>span {
+	line-height: 50px;
+}
+
+#nav-wrap .navs>*:hover {
+	color: rgb(231, 31, 155);
+	border-block-color: rgb(175, 87, 116);
+}
+
+#wrap1 {
+	width: 600px;
+	height: 400px;
+	margin: 60px;
+	display: flex;
+	justify-content: space-around;
+	float: left;
+}
+
+#wrap2 {
+	width: 600px;
+	height: 400px;
+	margin: 60px;
+	display: flex;
+	justify-content: space-around;
+	float: left;
+}
+
+#content-wrap {
+	padding: 0px;
+	border: 1px solid rgb(169, 165, 172);
+	text-align: left;
+}
+
+.content-box {
+	padding: 10px 20px 10px 20px;
+	font-size: 18px;
+}
+
+.selectLang {
+	width: 600px;
+	padding: .8em .5em;
+	<!--background: url('c:\\arrow.jpg') no-repeat 95% 50%;-->
+	border-radius: 0px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	font-size: 18px;
+	background-color: rgb(193, 255, 174);
+}
+
+selectLang::-ms-expand {
+	display: none;
+}
+
+#wrap3 {
+	width: 1330px;
+	height: 400px;
+	margin: 60px;
+	display: flex;
+	justify-content: space-around;
+}
+
+#footer {
+	line-height: 50px;
+	text-align: center;
+	width: 200px;
+	height: 50px;
+	margin: 10px auto;
+	background-color: rgb(186, 248, 180);
+	color: rgb(104, 93, 93);
+	font-size: 20px;
+	font-weight: 900;
+}
+</style>
+
+	<div id="nav-wrap">
+		<div class="container">
+			<div class="navs">
+				<div class="nav">
+					<span>Papago</span>
+				</div>
+				<div class="nav">
+					<span>웹사이트 번역</span>
+				</div>
+				<div class="nav">
+					<span>GYM</span>
+				</div>
+				<div class="nav">
+					<span>사전</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="wrap1">
+		<div id="content-wrap">
+			<div class="selectBox">
+				<select id="source" class="selectLang">
+					<option value="">언어감지</option>
+					<option value="ko">한국어</option>
+					<option value="en">영어</option>
+					<option value="ja">일본어</option>
+					<option value="zh-cn">중국어(간체)</option>
+					<option value="zh-tw">중국어(번체)</option>
+					<option value="es">스페인어</option>
+					<option value="fr">프랑스어</option>
+					<option value="de">독일어</option>
+					<option value="ru">러시아어</option>
+					<option value="pt">포르투갈어</option>
+					<option value="it">이탈리아어</option>
+					<option value="vi">베트남어</option>
+					<option value="th">태국어</option>
+					<option value="id">인도네시아어</option>
+					<option value="hi">힌디어</option>
+				</select>
+
+			</div>
+			<div class="content-box">
+				<textarea id="text" placeholder="내용을 입력해주세요."
+					style="width: 530px; height: 300px; border: 0; padding: 10px; overflow-y: hidden; background: clear;"></textarea>
+
+			</div>
+		</div>
+
+	</div>
+
+
+	<div id="wrap2">
+		<div id="content-wrap">
+			<div class="selectBox">
+				<select id="target" class="selectLang">
+					<option value="">언어감지</option>
+					<option value="ko">한국어</option>
+					<option value="en">영어</option>
+					<option value="ja">일본어</option>
+					<option value="zh-cn">중국어(간체)</option>
+					<option value="zh-tw">중국어(번체)</option>
+					<option value="es">스페인어</option>
+					<option value="fr">프랑스어</option>
+					<option value="de">독일어</option>
+					<option value="ru">러시아어</option>
+					<option value="pt">포르투갈어</option>
+					<option value="it">이탈리아어</option>
+					<option value="vi">베트남어</option>
+					<option value="th">태국어</option>
+					<option value="id">인도네시아어</option>
+					<option value="hi">힌디어</option>
+				</select>
+
+			</div>
+			<div class="content-box">
+				<textarea id="result" placeholder="번역한 내용이 나옵니다."
+					style="width: 530px; height: 300px; border: 0; padding: 10px; overflow-y: hidden; background: clear;"></textarea>
+			</div>
+		</div>
+	</div>
+	<div id="wrap3">
+		<div id="footer">
+			<button id="btn">번역하기</button>
+		</div>
+	</div>
+	<script>
+		// console.log($);
+		$(document).ready(function(){
+		$('#btn').on('click',function(){
+			var param = {
+					source : $('#source option:selected').val(),
+					target : $('#target option:selected').val(),
+					text : document.querySelector('#text').value
+				}
+			$.ajax({
+				contentType: 'application/json; charset=utf-8',
+				method : 'POST',
+				url : '/papago',
+				dataType: 'json',
+				data: JSON.stringify(param),
+				success : function(res) {	
+					$('#result').val(res.result.translatedText);
+				},
+				error : function(res) {
+					console.log(res);
+				}
+				
+			});	
+		})
+	});
+		
+	</script>
+
+</body>
+</html>

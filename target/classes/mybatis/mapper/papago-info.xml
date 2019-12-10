@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jojo.papago.dao.PapagoInfoMapper">
+	<select id="selectPapagoInfoList" resultType="ppg">
+		select * from papago_info
+		order by pi_num desc
+		<where>
+			<if test="search!=null">
+				<foreach collection="search" item="col" separator="or">
+					${col} like '%'|| #{searchStr} ||'%' 
+				</foreach>
+			</if>
+		</where>
+	</select>
+	<select id="selectPapago" resultType="ppg">
+		select * from papago_info
+		where pi_target = rpad(#{piTarget},6,' ')
+		and pi_source = rpad(#{piSource},6,' ')
+		and pi_text = #{piText}
+	</select>
+	<insert id = "insertPapagoInfo" parameterType="ppg"> <!-- 파라미터타입 안써도 user집어넣으면 동작하긴함 -->
+		insert into papago_info
+		values(seq_pi_num.nextval, #{piSource}, #{piTarget}, #{piText}, #{piResult},1)
+		
+	</insert>
+	<update id="updatePapagoInfoForCnt" parameterType="ppg">
+		update papago_info
+		set pi_cnt = pi_cnt + 1
+		where 
+		pi_num = #{piNum}
+	</update>
+	
+   <delete id="deletePapagoInfos" parameterType="ppg">
+   delete papago_info
+   <where>
+	 	  <if test="piNums !=null">
+	 	  	<foreach collection="piNums" item="nums" separator="or">
+	 	  			pi_num = #{nums} 
+	 	  	</foreach>
+	 	  </if>	
+ 	  	</where>
+   </delete>
+   <select id="selectPapagoInfo" resultType="ppg"> <!-- 로그인 -->
+		select * from papago_info
+		<where>
+			<if test="uiId!=null">
+				, pi_source = #{piSource} 
+			</if>
+			<if test="uiPwd!=null">
+				, pi_target = #{piTarget} 
+			</if>
+			<if test="uiName!=null">
+				, pi_text = #{piText} 
+			</if>	
+			<if test="uiName!=null">
+				, piResult = #{piResult} 
+			</if>
+		</where>
+	</select>
+</mapper>
